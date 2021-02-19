@@ -15,18 +15,6 @@ jobs:
       - name: Build packages
         id: build_packages
         run: docker run --rm -v $(pwd)/output:/build/output builder:latest
-      - name: Upload repo
-        uses: actions/upload-artifact@v2
-        with:
-          name: repo
-          path: ./output/
-
-  release:
-    name: Release repo
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -46,3 +34,40 @@ jobs:
           asset_path: ./output/repo.db
           asset_name: repo.db
           asset_content_type: application/gzip
+      - name: Upload repo.db.tar.gz
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/repo.db.tar.gz
+          asset_name: repo.db.tar.gz
+          asset_content_type: application/gzip
+      - name: Upload repo.files
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/repo.files
+          asset_name: repo.files
+          asset_content_type: application/gzip
+      - name: Upload repo.files.tar.gz
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/repo.files.tar.gz
+          asset_name: repo.files.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload minigalaxy
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/minigalaxy-1.0.2-1-any.pkg.tar.zst
+          asset_name: minigalaxy-1.0.2-1-any.pkg.tar.zst
+          asset_content_type: application/x-zstd
