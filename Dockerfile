@@ -9,4 +9,8 @@ RUN pacman --noconfirm -Syyu --needed base-devel git sudo && \
 ADD . /build
 WORKDIR /build
 
+RUN chown -R ${USERNAME} /build
+
+USER ${USERNAME}
+
 CMD ./build.sh
