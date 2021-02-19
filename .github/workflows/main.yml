@@ -45,3 +45,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./output/repo.db
           asset_name: repo.db
+          asset_content_type: application/gzip
