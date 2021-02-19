@@ -12,4 +12,4 @@ rm -rf "${OUTPUT_DIR}/*"
 find . -type f -name "*.pkg.tar.zst" -exec cp {} "${OUTPUT_DIR}/" \;
 
 cd "${OUTPUT_DIR}"
-repo-add repo.db.tar.gz *.pkg.tar.zst
+repo-add minigalaxy.db.tar.gz *.pkg.tar.zst

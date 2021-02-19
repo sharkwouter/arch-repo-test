@@ -25,41 +25,41 @@ jobs:
           release_name: Release ${{ github.run_number }}
           draft: false
           prerelease: false
-      - name: Upload repo.db
+      - name: Upload minigalaxy.db
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./output/repo.db
-          asset_name: repo.db
+          asset_path: ./output/minigalaxy.db
+          asset_name: minigalaxy.db
           asset_content_type: application/gzip
-      - name: Upload repo.db.tar.gz
+      - name: Upload minigalaxy.db.tar.gz
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./output/repo.db.tar.gz
-          asset_name: repo.db.tar.gz
+          asset_path: ./output/minigalaxy.db.tar.gz
+          asset_name: minigalaxy.db.tar.gz
           asset_content_type: application/gzip
-      - name: Upload repo.files
+      - name: Upload minigalaxy.files
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./output/repo.files
-          asset_name: repo.files
+          asset_path: ./output/minigalaxy.files
+          asset_name: minigalaxy.files
           asset_content_type: application/gzip
-      - name: Upload repo.files.tar.gz
+      - name: Upload minigalaxy.files.tar.gz
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./output/repo.files.tar.gz
-          asset_name: repo.files.tar.gz
+          asset_path: ./output/minigalaxy.files.tar.gz
+          asset_name: minigalaxy.files.tar.gz
           asset_content_type: application/gzip
 
       - name: Upload minigalaxy
