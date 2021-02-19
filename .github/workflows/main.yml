@@ -1,0 +1,34 @@
+name: Build the repo
+on: push
+jobs:
+        build:
+                name: Build packages
+                runs-on: ubuntu-20.04
+                steps:
+                        - uses: actions/checkout@v2
+                        - name: Change directory
+                          run: cd $GITHUB_WORKSPACE
+                        - name: Pull base image
+                          run: docker pull archlinux:latest
+                        - name: Create build image
+                          run: docker build --no-cache -t builder:latest .
+                        - name: Build packages
+                          id: build_packages
+                          run: docker run --rm -v ${PWD}/output:/output builder:latest
+                        - name: Create release
+                          id: create_release
+                          uses: actions/create-release@v1
+                          env:
+                                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                          with:
+                                  tag_name: ${GITHUB_SHA}
+                                  release_name: ${GITHUB_SHA}
+                                  draft: false
+                                  prerelease: false
+                        - name: Upload repo
+                          uses: actions/upload-release-asset@v1
+                          env:
+                                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                          with:
+                                  upload_url: ${{ steps.create_release.outputs.upload_url }}
+                                  asset_path: ./output/*
