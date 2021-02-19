@@ -29,3 +29,4 @@ if [ ! -z "${FAILED}" ]; then
 	echo "The following packages failed to build or install:${FAILED}"
 fi
 
+sudo ./create_repo.sh
