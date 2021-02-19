@@ -19,8 +19,10 @@ build_package() {
 	cd "${WORKDIR}"
 }
 
+git submodule update --init
+
 for pkgbuild in $(find -type f -name PKGBUILD); do
-	build_package($pkgbuild)
+	build_package "${pkgbuild}"
 done
 
 if [ ! -z "${FAILED}" ]; then
