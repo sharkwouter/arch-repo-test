@@ -1,22 +1,47 @@
 name: Build the repo
 on: push
 jobs:
-        build:
-                name: Build packages
-                runs-on: ubuntu-20.04
-                steps:
-                        - uses: actions/checkout@v2
-                        - name: Change directory
-                          run: cd $GITHUB_WORKSPACE
-                        - name: Pull base image
-                          run: docker pull archlinux:latest
-                        - name: Create build image
-                          run: docker build --no-cache -t builder:latest .
-                        - name: Build packages
-                          id: build_packages
-                          run: docker run --rm -v $(pwd)/output:/build/output builder:latest
-                        - name: Upload repo
-                          uses: actions/upload-artifact@v2
-                          with:
-                                  name: repo
-                                  path: ./output/
+  build:
+    name: Build packages
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Change directory
+        run: cd $GITHUB_WORKSPACE
+      - name: Pull base image
+        run: docker pull archlinux:latest
+      - name: Create build image
+        run: docker build --no-cache -t builder:latest .
+      - name: Build packages
+        id: build_packages
+        run: docker run --rm -v $(pwd)/output:/build/output builder:latest
+      - name: Upload repo
+        uses: actions/upload-artifact@v2
+        with:
+          name: repo
+          path: ./output/
+
+  release:
+    name: Release repo
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload repo.db
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./output/repo.db
+          asset_name: repo.db
