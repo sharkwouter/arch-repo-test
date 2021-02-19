@@ -1,0 +1,3 @@
+[submodule "minigalaxy"]
+	path = minigalaxy
+	url = https://aur.archlinux.org/minigalaxy.git
