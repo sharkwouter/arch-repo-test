@@ -14,7 +14,7 @@ jobs:
                           run: docker build --no-cache -t builder:latest .
                         - name: Build packages
                           id: build_packages
-                          run: docker run --rm -v ${PWD}/output:/output builder:latest
+                          run: docker run --rm -v ${PWD}/output:/build/output builder:latest
                         - name: Create release
                           id: create_release
                           uses: actions/create-release@v1
