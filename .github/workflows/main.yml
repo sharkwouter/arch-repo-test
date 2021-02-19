@@ -2,7 +2,7 @@ name: Build the repo
 on: push
 jobs:
   build:
-    name: Build packages
+    name: Publish repo
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
