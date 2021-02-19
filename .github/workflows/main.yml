@@ -14,21 +14,9 @@ jobs:
                           run: docker build --no-cache -t builder:latest .
                         - name: Build packages
                           id: build_packages
-                          run: docker run --rm -v ${PWD}/output:/build/output builder:latest
-                        - name: Create release
-                          id: create_release
-                          uses: actions/create-release@v1
-                          env:
-                                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                          with:
-                                  tag_name: ${GITHUB_SHA}
-                                  release_name: ${GITHUB_SHA}
-                                  draft: false
-                                  prerelease: false
+                          run: docker run --rm -v $(pwd)/output:/build/output builder:latest
                         - name: Upload repo
-                          uses: actions/upload-release-asset@v1
-                          env:
-                                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                          uses: actions/upload-artifact@v2
                           with:
-                                  upload_url: ${{ steps.create_release.outputs.upload_url }}
-                                  asset_path: ./output/*
+                                  upload_url: repo
+                                  asset_path: ./output/
