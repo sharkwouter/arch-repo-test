@@ -18,5 +18,5 @@ jobs:
                         - name: Upload repo
                           uses: actions/upload-artifact@v2
                           with:
-                                  upload_url: repo
+                                  name: repo
                                   asset_path: ./output/
